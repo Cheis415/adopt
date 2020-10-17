@@ -26,19 +26,20 @@ def home():
 @app.route("/add_pet", methods=["GET", "POST"])
 def add_pet():
 
-    
-
     form = AddPetForm()
 
     if form.validate_on_submit():
-        pet.name = form.name.data
-        pet.species = form.species.data
-        pet.photo_url = form.photo.data
-        pet.age = form.age.data
-        pet.notes = form.note.data
+        name = form.name.data
+        species = form.species.data
+        photo_url = form.photo.data
+        age = form.age.data
+        notes = form.note.data
+
+        pet = Pet(name=name, species=species, photo_url=photo_url, age=age, notes=notes)
+        db.session.add(pet)
         db.session.commit()
 
         return redirect("/")
 
     else:
-        return render_template("/add_pet.html", form=form)
+        return render_template("add_pet.html", form=form)
